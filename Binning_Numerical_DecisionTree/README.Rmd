@@ -1,0 +1,116 @@
+---
+title: "How to Bin or Convert Numerical Variables to Categorical Variables with Decision Trees"
+output: html_document
+---
+
+```{r setOptions, message=FALSE, echo = F,  warning=FALSE}
+###Make sure the below packages are installed on your system, else first install them using
+### install.packages("packageName")  and then knit this Rmd file
+library(ggplot2)
+library(gmodels)
+library(rpart)
+library(rattle)
+library(RColorBrewer)
+
+library(knitr)
+
+
+opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA)
+```
+
+Why would you want to convert a numerical variable into categorical one? Depending on the situation, it can lead to a better interpretation of the numerical variable, quick segmentation or just an additional feature for building your predictive model by creating bins for the numerical variable. Binning is a popular feature engineering technique.
+
+Suppose your hypothesis is that the age of a customer is correlated with their tendency to interact with a mobile app. This relationship is shown graphically below:
+
+```{r}
+g <- read.csv("./dat.csv", stringsAsFactors = F)
+
+ggplot(g, aes(x = Age, y = Interact)) + geom_point(size = 1.75, colour = "blue")
+
+```
+
+The age of the user is plotted on x-axis and user interaction with the app is plotted on the y-axis. "1" represents interactions whereas "0" represents non-interaction.
+
+It appears in the graph above, that users under age 50 interact more frequently than those older than 50. This is represented by more dots leading up to 50 for "1" compared to "0".
+
+Let's group the users based on age and visualize the relationship with the help of a mosaic plot:
+
+```{r}
+g$AgeGroup <- NA
+
+##Grouping the users based on age
+g$AgeGroup[g$Age < 50] <- "< 50"
+g$AgeGroup[g$Age >= 50] <- ">= 50"
+
+
+mosaicplot(table(g$AgeGroup, g$Interact), shade = T, xlab = "AgeGroup", ylab = "Interact", main = "Mosaic Plot")
+```
+
+It is clear that there is a statistical significance for the group aged 50 or more as shown by the colors. It seems for users having age higher than or equal to 50 interact very less with the app compared to the global average for the app.
+
+```{r}
+g$Interact <- as.factor(g$Interact)
+ggplot(g, aes(AgeGroup)) + geom_bar(aes(fill = Interact))
+
+```
+
+The bar chart shows that there is a skewed distribution of the data in regards to those younger than 50. This accounts for approximately 85% of the total users which is not desirable. We could also have looked at the distribution of age of the customers and create groups of customers based on a percentile approach to have a better distribution. But, that approach only takes age into account and ignores the need to create groups based on whether the user has interacted with the app.
+
+To solve for this, we can use different techniques to arrive at a better classification. Decision trees is one such technique. Decision trees, as the name suggests, uses a tree plot to map out possible consequences to visually display event outcomes. This helps to identify a strategy and ultimately reach a goal. The goal, or dependent variable, in this case, is to find out whether the users interact with the independent variable of age.
+
+Decision trees have three main parts: a root node, leaf nodes and branches. The root node is the starting point of the tree, and both root and leaf nodes contain questions or criteria to be answered. Branches are arrows connecting nodes, showing the flow from question to answer. Each node typically has two or more nodes extending from it. The way a decision tree selects the best question at a particular node is based on the information gained from the answer.
+
+```{r}
+
+formula <- Interact ~ Age
+
+##Creating a decision tree
+tree1 <- rpart(formula, data = g, control=rpart.control(minsplit=10,cp=0))
+	
+fancyRpartPlot(tree1)
+
+```
+
+In the above example, the best question for the first node is whether the age of the user is greater than or equal to 38? This question was arrived after looking at the information gained from the answers for many such questions at varying users' age. There is one leaf node for a "yes" response, and another node for "no." We see such questions at each node based on whether the user is above or below a certain age.
+
+Based on the above decision tree, we get certain rules based on which one could infer if a user is likely to interact with the app or not. Enumerated below are the rules:
+
+#####**Rule1 : Age < 38 -> Age < 28 = "Likely to interact"**
+
+#####**Rule 2 : Age < 38 -> Age >= 28 -> Age >= 34 = "Likely to interact"**
+
+#####**Rule 3 : Age < 38 -> Age >= 28 -> Age < 34 -> Age < 32 = "Likely to interact"**
+
+#####**Rule 4 : Age < 38 -> Age >= 28 -> Age < 34 -> Age >= 32 = "Unlikely to interact"**
+
+#####**Rule 5 : Age >= 38 -> Age >= 44 = "Unlikely to interact"**
+
+#####**Rule 6 : Age >= 38 -> Age < 44 -> Age < 40 = "Unlikely to interact"**
+
+#####**Rule 7 : Age >= 38 -> Age < 44 -> Age >= 40 = "Likely to interact"**
+
+#####From the above rules, it looks like we could classify the users in 3 age groups **"< 28"**, **">= 28 and < 44"** and **">= 44"**.
+
+
+```{r}
+g$AgeGroup.DT <- NA
+
+### Grouping the users based on the classification from the decision tree
+g$AgeGroup.DT[g$Age < 28] <- "< 28"
+g$AgeGroup.DT[g$Age >= 28 & g$Age < 44] <- ">= 28 & < 44"
+g$AgeGroup.DT[g$Age >= 44] <- ">= 44"
+mosaicplot(table(g$AgeGroup.DT, g$Interact), shade = T, xlab = "AgeGroup", ylab = "Interact", main = "Mosaic Plot")
+```
+
+The mosaic plot indicates a statistical significance for age group "< 28" & ">= 44". it seems users less than 28 years interact significantly more and users who are more than or equal to 44 years interact significantly less with the app compared to the global average. Users between the above age group interact as per the global average.
+
+
+```{r}
+ggplot(g, aes(AgeGroup.DT)) + geom_bar(aes(fill = Interact))
+
+
+```
+
+The chart above shows that the distribution of users among various age groups is not heavily skewed toward one user group compared to the earlier distribution. The above user segmentation is more useful and distributed compared to the earlier one. One could also create an additional categorical feature using the above classification to build a model that predicts whether a user would interact with the app.
+
+With the help of Decision Trees, we have been able to convert a numerical variable into a categorical one and get a quick user segmentation by binning the numerical variable in groups. This classification can, itself, be dynamic based on the desired goal, which in the example discussed was the identification of interacting users based on their age.
