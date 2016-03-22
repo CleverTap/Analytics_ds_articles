@@ -23,7 +23,7 @@ Why would you want to convert a numerical variable into categorical one? Dependi
 Suppose your hypothesis is that the age of a customer is correlated with their tendency to interact with a mobile app. This relationship is shown graphically below:
 
 ```{r}
-g <- read.csv("./dat.csv", stringsAsFactors = F)
+g <- read.csv("../dat.csv", stringsAsFactors = F)
 
 ggplot(g, aes(x = Age, y = Interact)) + geom_point(size = 1.75, colour = "blue")
 

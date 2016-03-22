@@ -1,0 +1,106 @@
+---
+title: "How to Represent Data with Intelligent Use of the Coordinate System"
+output: html_document
+---
+
+```{r setOptions, message=FALSE, echo = F,  warning=FALSE}
+library(ggplot2)
+library(treemap)
+library(RColorBrewer)
+library(scales)
+library(lubridate)
+library(dplyr)
+
+library(knitr)
+
+
+opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA)
+```
+
+####The standard visualization for a categorical variable is bar charts. Bar charts are useful if you are dealing with less number of categories within a variable.
+
+```{r}
+dat <- read.csv("../dat.csv")
+dat <- dat[order(dat$AppLaunches,decreasing = T),]
+dat$percent <- round(dat$AppLaunches/sum(dat$AppLaunches) * 100, 2)
+
+android <- round(sum(dat$AppLaunches) * 68.3/100,0)
+iOS <- round(sum(dat$AppLaunches) * 26/100,0)
+others <- sum(dat$AppLaunches) - android - iOS
+
+dat1 <- data.frame("OS" = c("Android", "iOS", "Windows"), "AppLaunches" = c(android, iOS, others)/1000)
+
+dat1$percent <- dat1$AppLaunches/sum(dat1$AppLaunches) 
+
+g <- ggplot(dat1, aes(x = OS, y = percent, colour = "red") ) +
+        theme_bw() +
+        geom_point(size = 4) +
+        geom_text(aes(label = percent(round(percent, 2))), size = 4, hjust = 0.4, vjust = -1, colour = "red") +
+        geom_bar(aes(y = AppLaunches), stat = 'identity', colour = "blue", alpha = 0.3)+
+        theme(legend.position='none')  +
+        labs(x = 'Operating System', y = "App Launches  (in \'000)") +
+        ggtitle("Bar Chart")
+g
+```
+
+####Suppose, we need to check the app launches by various countries. In this case, there may be many categories as shown below:
+
+```{r}
+
+g <- ggplot(dat, aes(x = Country, y = percent, colour = "red") ) +
+        theme_bw() +
+        geom_point(size = 4) +
+        geom_text(aes(label = percent(round(percent/100, 2))), size = 4, hjust = 0.4, vjust = -1, colour = "red") +
+        geom_bar(aes(y = AppLaunches), stat = 'identity', colour = "blue", alpha = 0.3)+
+        theme(legend.position='none', axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))  +
+        labs(x = 'Country', y = 'App Launches') +
+        ggtitle("Bar Chart")
+g
+```
+
+
+```{r}
+p = ggplot(dat, aes(x=Country, y=AppLaunches, fill = AppLaunches)) + geom_bar(stat = 'identity') + 
+    theme_light() +
+    scale_fill_gradient(low='white', high='red') +
+    theme(axis.title.y=element_text(angle=0)) + ylab("")
+
+p + coord_polar()
+
+
+```
+
+####The bar chart above makes inefficient use of space since there are many countries. In such a case, you could restrict the bars to the top 5 countries by App Launches or some such number, but you'll end up sacrificing the information about other countries.
+
+####Tree maps come to the rescue, in such a case. A Tree map is shown in the form of a rectangle with each country shown as nested rectangles inside it. The area occupied by each rectangle is proportional to the count of the app launches in each country to the total app launches as shown below:
+
+```{r}
+dat$AppLaunches <- dat$AppLaunches / 100
+treemap(dat, index = c("Country"), vSize = "AppLaunches", vColor = "AppLaunches", type = "value", algorithm = "pivotSize", sortID = "-size",
+        title = "App Launched by Country (in '00)", palette = brewer.pal(12,"Set3"))
+```
+
+####United States has the highest share of the app launches since the area occupied by its rectangle is the highest. It can be inferred from the above example, that roughly 60% of the app launches are accounted by the top 4 countries and they occupy roughly 60% area of the tree map. The rest of the countries account for the other half. You can further extend the tree map to include percentage of app launch as with bar charts shown above. Tree maps are also useful when you have to show nested hierarchical information like OS version within OS as compared to a stacked bar chart or side-by-side bar chart. Unlike bar charts, tree maps make efficient use of the space provided. 
+
+####Thus, with tree maps, we have been able to visualize and get better insights about the categorical data than with a bar chart.
+
+
+```{r}
+dat <- read.csv("../dat1.csv", stringsAsFactors = F)
+
+dat$Hour <- factor(dat$Hour, levels = c("12 am", "1 am", "2 am", "3 am", "4 am", "5 am", "6 am", "7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm", "11 pm"))
+
+dat$Day <- factor(dat$Day, levels = c("Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"))
+ggplot(dat, aes(Hour, Day)) + geom_tile(aes(fill = Video.Played), colour = "white") + 
+  scale_fill_gradient(low = "white", high = "coral2") + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1)) 
+
+       
+```
+
+
+```{r}
+
+ggplot(dat, aes(Hour, Day)) + geom_tile(aes(fill = Video.Played), colour = "white") + 
+  scale_fill_gradient(low = "white", high = "coral2") + coord_polar()
+```
+
