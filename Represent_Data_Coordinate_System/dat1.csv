@@ -1,169 +1,23 @@
-"Device","Hour","Day","Video.Played"
-"Mobile","12 am","Sun",1096
-"Mobile","12 am","Mon",880
-"Mobile","12 am","Tues",1296
-"Mobile","12 am","Wed",1299
-"Mobile","12 am","Thurs",1312
-"Mobile","12 am","Fri",1149
-"Mobile","12 am","Sat",1370
-"Mobile","1 am","Sun",874
-"Mobile","1 am","Mon",612
-"Mobile","1 am","Tues",1049
-"Mobile","1 am","Wed",1009
-"Mobile","1 am","Thurs",1020
-"Mobile","1 am","Fri",958
-"Mobile","1 am","Sat",1080
-"Mobile","2 am","Sun",623
-"Mobile","2 am","Mon",454
-"Mobile","2 am","Tues",835
-"Mobile","2 am","Wed",716
-"Mobile","2 am","Thurs",725
-"Mobile","2 am","Fri",740
-"Mobile","2 am","Sat",821
-"Mobile","3 am","Sun",455
-"Mobile","3 am","Mon",392
-"Mobile","3 am","Tues",659
-"Mobile","3 am","Wed",610
-"Mobile","3 am","Thurs",596
-"Mobile","3 am","Fri",590
-"Mobile","3 am","Sat",657
-"Mobile","4 am","Sun",450
-"Mobile","4 am","Mon",304
-"Mobile","4 am","Tues",584
-"Mobile","4 am","Wed",536
-"Mobile","4 am","Thurs",551
-"Mobile","4 am","Fri",533
-"Mobile","4 am","Sat",579
-"Mobile","5 am","Sun",417
-"Mobile","5 am","Mon",314
-"Mobile","5 am","Tues",596
-"Mobile","5 am","Wed",499
-"Mobile","5 am","Thurs",539
-"Mobile","5 am","Fri",499
-"Mobile","5 am","Sat",522
-"Mobile","6 am","Sun",448
-"Mobile","6 am","Mon",330
-"Mobile","6 am","Tues",614
-"Mobile","6 am","Wed",541
-"Mobile","6 am","Thurs",574
-"Mobile","6 am","Fri",519
-"Mobile","6 am","Sat",589
-"Mobile","7 am","Sun",692
-"Mobile","7 am","Mon",482
-"Mobile","7 am","Tues",575
-"Mobile","7 am","Wed",574
-"Mobile","7 am","Thurs",644
-"Mobile","7 am","Fri",555
-"Mobile","7 am","Sat",621
-"Mobile","8 am","Sun",1014
-"Mobile","8 am","Mon",507
-"Mobile","8 am","Tues",634
-"Mobile","8 am","Wed",610
-"Mobile","8 am","Thurs",645
-"Mobile","8 am","Fri",582
-"Mobile","8 am","Sat",629
-"Mobile","9 am","Sun",1234
-"Mobile","9 am","Mon",534
-"Mobile","9 am","Tues",735
-"Mobile","9 am","Wed",766
-"Mobile","9 am","Thurs",711
-"Mobile","9 am","Fri",580
-"Mobile","9 am","Sat",700
-"Mobile","10 am","Sun",1140
-"Mobile","10 am","Mon",674
-"Mobile","10 am","Tues",742
-"Mobile","10 am","Wed",842
-"Mobile","10 am","Thurs",715
-"Mobile","10 am","Fri",636
-"Mobile","10 am","Sat",825
-"Mobile","11 am","Sun",3267
-"Mobile","11 am","Mon",712
-"Mobile","11 am","Tues",897
-"Mobile","11 am","Wed",852
-"Mobile","11 am","Thurs",723
-"Mobile","11 am","Fri",838
-"Mobile","11 am","Sat",843
-"Mobile","12 pm","Sun",2541
-"Mobile","12 pm","Mon",740
-"Mobile","12 pm","Tues",876
-"Mobile","12 pm","Wed",807
-"Mobile","12 pm","Thurs",897
-"Mobile","12 pm","Fri",827
-"Mobile","12 pm","Sat",877
-"Mobile","1 pm","Sun",2532
-"Mobile","1 pm","Mon",737
-"Mobile","1 pm","Tues",913
-"Mobile","1 pm","Wed",1015
-"Mobile","1 pm","Thurs",1047
-"Mobile","1 pm","Fri",835
-"Mobile","1 pm","Sat",934
-"Mobile","2 pm","Sun",2676
-"Mobile","2 pm","Mon",840
-"Mobile","2 pm","Tues",1016
-"Mobile","2 pm","Wed",1032
-"Mobile","2 pm","Thurs",1045
-"Mobile","2 pm","Fri",944
-"Mobile","2 pm","Sat",1153
-"Mobile","3 pm","Sun",3381
-"Mobile","3 pm","Mon",1012
-"Mobile","3 pm","Tues",998
-"Mobile","3 pm","Wed",1395
-"Mobile","3 pm","Thurs",1080
-"Mobile","3 pm","Fri",1111
-"Mobile","3 pm","Sat",1089
-"Mobile","4 pm","Sun",3036
-"Mobile","4 pm","Mon",1142
-"Mobile","4 pm","Tues",1167
-"Mobile","4 pm","Wed",1319
-"Mobile","4 pm","Thurs",1199
-"Mobile","4 pm","Fri",1139
-"Mobile","4 pm","Sat",1068
-"Mobile","5 pm","Sun",3393
-"Mobile","5 pm","Mon",1128
-"Mobile","5 pm","Tues",1191
-"Mobile","5 pm","Wed",1334
-"Mobile","5 pm","Thurs",1180
-"Mobile","5 pm","Fri",1175
-"Mobile","5 pm","Sat",1145
-"Mobile","6 pm","Sun",3504
-"Mobile","6 pm","Mon",1332
-"Mobile","6 pm","Tues",1532
-"Mobile","6 pm","Wed",1514
-"Mobile","6 pm","Thurs",1481
-"Mobile","6 pm","Fri",1269
-"Mobile","6 pm","Sat",1362
-"Mobile","7 pm","Sun",5080.5
-"Mobile","7 pm","Mon",1968
-"Mobile","7 pm","Tues",2253
-"Mobile","7 pm","Wed",2128.5
-"Mobile","7 pm","Thurs",2325
-"Mobile","7 pm","Fri",2077.5
-"Mobile","7 pm","Sat",2088
-"Mobile","8 pm","Sun",2722.5
-"Mobile","8 pm","Mon",4259.25
-"Mobile","8 pm","Tues",4054.5
-"Mobile","8 pm","Wed",3764.25
-"Mobile","8 pm","Thurs",4218.75
-"Mobile","8 pm","Fri",3566.25
-"Mobile","8 pm","Sat",3636
-"Mobile","9 pm","Sun",1717.5
-"Mobile","9 pm","Mon",4057.5
-"Mobile","9 pm","Tues",4681.5
-"Mobile","9 pm","Wed",4351.5
-"Mobile","9 pm","Thurs",3922.5
-"Mobile","9 pm","Fri",3709.5
-"Mobile","9 pm","Sat",2721
-"Mobile","10 pm","Sun",1711.5
-"Mobile","10 pm","Mon",3532.5
-"Mobile","10 pm","Tues",3396
-"Mobile","10 pm","Wed",3942
-"Mobile","10 pm","Thurs",3376.5
-"Mobile","10 pm","Fri",3802.5
-"Mobile","10 pm","Sat",2401.5
-"Mobile","11 pm","Sun",985
-"Mobile","11 pm","Mon",1568
-"Mobile","11 pm","Tues",1555
-"Mobile","11 pm","Wed",1819
-"Mobile","11 pm","Thurs",1602
-"Mobile","11 pm","Fri",1834
-"Mobile","11 pm","Sat",1322
+"Country","AppLaunches","percent"
+"United States",98066,17.5
+"India",91297,16.3
+"United Kingdom",55126,9.84
+"China",48619,8.68
+"Phillipines",39458,7.04
+"Canada",37217,6.64
+"Australia",33690,6.01
+"France",32660,5.83
+"Italy",27563,4.92
+"Russia",20955,3.74
+"Germany",18809,3.36
+"Japan",18000,3.21
+"Argentina",15362,2.74
+"Mexico",13362,2.39
+"South Korea",3312,0.59
+"South Africa",1745,0.31
+"Greece",1445,0.26
+"Saudi Arabia",931,0.17
+"Dubai",840,0.15
+"Sri Lanka",712,0.13
+"Qatar",655,0.12
+"Bangladesh",415,0.07
