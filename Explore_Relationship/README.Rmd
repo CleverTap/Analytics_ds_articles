@@ -4,6 +4,7 @@ output: html_document
 ---
 
 ```{r setOptions, message=FALSE, echo = F,  warning=FALSE, include=FALSE}
+
 ###Make sure the below packages are installed on your R environment, else first install them ### using install.packages("packageName")  and then knit this Rmd file
 
 library(lubridate)
@@ -71,6 +72,6 @@ mosaicplot(table(dat$OS, dat$Gender), shade = T, xlab = "OS", ylab = "Gender", m
 
 The essential idea behind a mosaic plot is to recursively sub-divide a unit square into rectangular tiles such that the area of each tile is proportional to the cell frequency. The cell frequency in the above case is for Android users whose gender is male represented by the larger rectangle shown in blue. The color range from red to colorless to blue is based on a chi-square statistical test. The darker shades indicate that the observed frequency exhibits a large deviation from the expected frequency as compared to lighter shades.
 
-In the above plot, the observed female android users seems to be quite less compared to expected female android users while it is the opposite for iOS female users. It may be concluded that gender has a bearing on type of users on iOS and android whereas it doesn???t seem to have a bearing on windows users.
+In the above plot, the observed female android users seems to be quite less compared to expected female android users while it is the opposite for iOS female users. It may be concluded that gender has a bearing on type of users on iOS and android whereas it doesn't seem to have a bearing on windows users.
 
 Thus, visualizing variable relationships are not only desirable but also required to confirm the relationship between variables arrived with quantitative indicators. When it comes to variable relationships, numbers simply may not be enough. Get the full picture by building a visual representation of the data.

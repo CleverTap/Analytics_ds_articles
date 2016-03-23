@@ -3,10 +3,14 @@ title: "How to Represent Data with Intelligent Use of the Coordinate System"
 output: html_document
 ---
 
-Note: Some graphs/plots may be different from that shown in the article
+
 
 ```{r setOptions, message=FALSE, echo = F,  warning=FALSE}
-###Make sure the below packages are installed on your R environment, else first install them ### using install.packages("packageName")  and then knit this Rmd file
+
+###Note: Some graphs/plots may be different from that shown in the article
+
+###Make sure the below packages are installed on your R environment, else first install them 
+###using install.packages("packageName")  and then knit this Rmd file
 
 library(ggplot2)
 library(treemap)
@@ -21,7 +25,17 @@ library(knitr)
 opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA)
 ```
 
-####The standard visualization for a categorical variable is bar charts. Bar charts are useful if you are dealing with less number of categories within a variable.
+The most widely used coordinate system to represent data is the Cartesian coordinates followed by Polar coordinates.
+
+![Coordinate-System](Coordinate-System.png)
+
+Source: Wikipedia
+
+Basically, Cartesian coordinate system uses a grid of straight lines while Polar coordinate system uses a grid of circles to represent data.
+
+Let's now look at a few examples where with the appropriate use of the systems discussed above, we will able to visualize different aspects of the data.
+
+The standard graphic visualization for a categorical variable is bar charts. Bar charts are useful if you are dealing with a low number of categories within a variable.
 
 ```{r}
 
@@ -38,7 +52,9 @@ g <- ggplot(dat, aes(x = OS, y = percent, colour = "red") ) +
 g
 ```
 
-####Suppose, we need to check the app launches by various countries. In this case, there may be many categories as shown below:
+The bar chart, above represents the App Launches by the Operating system.
+
+Suppose, we need to check the App launches by various countries. In this case, there may be many categories as shown below:
 
 ```{r}
 
@@ -54,6 +70,9 @@ g <- ggplot(dat1, aes(x = Country, y = percent, colour = "red") ) +
 g
 ```
 
+The bar chart above makes inefficient use of space since there are many countries. In such a case, you could restrict the bars to the top 5 countries by App Launches, but you'll end up sacrificing the information about other countries which could help you see a much bigger picture.
+
+What if we flip the coordinate system to Polar from Cartesian?
 
 ```{r}
 p = ggplot(dat1, aes(x=Country, y=AppLaunches, fill = AppLaunches)) + geom_bar(stat = 'identity') + 
@@ -66,9 +85,11 @@ p + coord_polar()
 
 ```
 
-####The bar chart above makes inefficient use of space since there are many countries. In such a case, you could restrict the bars to the top 5 countries by App Launches or some such number, but you'll end up sacrificing the information about other countries.
+The above plot looks better than the bar chart on cartesian coordinate system. You can instantly draw the conclusion about the top countries by App Launches.
 
-####Tree maps come to the rescue, in such a case. A Tree map is shown in the form of a rectangle with each country shown as nested rectangles inside it. The area occupied by each rectangle is proportional to the count of the app launches in each country to the total app launches as shown below:
+Well, things are getting better, but still we can't make out the proportion accounted by the top contributors unless we also indicate the percentages along with the counts.
+
+Now, let's look at another class of plots known as Tree Maps, which is plotted on the Cartesian coordinate system. A Tree map is shown in the form of a rectangle with each country shown as nested rectangles inside it. The area occupied by each rectangle is proportional to the count of the App Launches in each country to the total App Launches as shown below:
 
 ```{r}
 dat$AppLaunches <- dat$AppLaunches / 100
@@ -76,10 +97,9 @@ treemap(dat, index = c("Country"), vSize = "AppLaunches", vColor = "AppLaunches"
         title = "App Launched by Country (in '00)", palette = brewer.pal(12,"Set3"))
 ```
 
-####United States has the highest share of the app launches since the area occupied by its rectangle is the highest. It can be inferred from the above example, that roughly 60% of the app launches are accounted by the top 4 countries and they occupy roughly 60% area of the tree map. The rest of the countries account for the other half. You can further extend the tree map to include percentage of app launch as with bar charts shown above. Tree maps are also useful when you have to show nested hierarchical information like OS version within OS as compared to a stacked bar chart or side-by-side bar chart. Unlike bar charts, tree maps make efficient use of the space provided. 
+United States has the highest share of the App Launches since the area occupied by its rectangle is the highest. It can be inferred from the above example, that roughly 60% of the App Launches are accounted by the top 5 countries and they occupy roughly 60% area of the tree map. The rest of the countries account for the other half. You can further extend the tree map to include percentage of App Launches as with bar charts shown above. Tree maps are also useful when you have to show nested hierarchical information like OS version within OS as compared to a stacked bar chart or side-by-side bar chart. Unlike bar charts, tree maps make efficient use of the space provided.
 
-####Thus, with tree maps, we have been able to visualize and get better insights about the categorical data than with a bar chart.
-
+Let's now look at another example. An entertainment company would like to measure the interaction on its app by calculating the video played by its users. It decides to check the counts for video played on each day of the week and each hour in a day. The general practice is to look at a heat map, which is plotted on a Cartesian coordinate system as below:
 
 ```{r}
 dat <- read.csv("../dat2.csv", stringsAsFactors = F)
@@ -93,6 +113,9 @@ ggplot(dat, aes(Hour, Day)) + geom_tile(aes(fill = Video.Played), colour = "whit
        
 ```
 
+We have the Hour of the Day plotted on the x-axis and Day of the Week plotted on the y-axis. Darker shades indicate higher counts. It can be seen from the above heat map that weekdays between 8 pm to 11 pm is the most active period for video played. This could be the prime time for the app. The most active time period for Sunday is 7pm to 8pm followed by 11am to 7 pm, which is clearly a different behavior, compared to other days.
+
+What if we show the same heat map on a polar coordinate system?
 
 ```{r}
 
@@ -100,3 +123,6 @@ ggplot(dat, aes(Hour, Day)) + geom_tile(aes(fill = Video.Played), colour = "whit
   scale_fill_gradient(low = "white", high = "coral2") + coord_polar()
 ```
 
+The region between each of the concentric circles represents the day of the week starting with 'Sunday'. Surprisingly, heat map on the polar coordinate system is much easier on the eyes compared to the heat map shown on cartesian coordinate system.
+
+It may thus be concluded that if one uses the coordinate system intelligently, the data represented could be much easier to read and the information embedded may be conveyed faster.
