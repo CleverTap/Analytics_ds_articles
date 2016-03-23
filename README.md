@@ -1,4 +1,4 @@
-# Source Code for articles related to Analytics on blog.clevertap.com
+# Source Code for articles related to [Analytics Category](https://blog.clevertap.com/category/analytics/) on blog.clevertap.com
 
 In order to run the code, requirements are:
 + 'R', a language and environment for statistical computing and graphics.
