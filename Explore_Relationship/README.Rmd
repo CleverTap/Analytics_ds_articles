@@ -33,7 +33,7 @@ The points in the datasets are such that the mean, variance and correlation are 
 
 ####**Categorical v/s Numerical**
 
-Let???s now take a look at the relationship between a categorical and numerical variable with the help of box plots:
+Let's now take a look at the relationship between a categorical and numerical variable with the help of box plots:
 
 ```{r chunk1}
 dat <- read.csv("../dat.csv")
