@@ -17,6 +17,7 @@ library(knitr)
 opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA, cache = T)
 ```
 
+[Original:](https://blog.clevertap.com/exploring-the-relationship-between-variables-visually/)
 
 As an analyst, you can explore the relationship between variables both quantitatively and visually. However, only looking at the quantitative indicators like correlation could be leaving out much of the bigger picture. 
 

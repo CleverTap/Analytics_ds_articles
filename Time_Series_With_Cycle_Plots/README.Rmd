@@ -17,6 +17,7 @@ library(knitr)
 opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA, cache = T)
 ```
 
+[Original:](https://blog.clevertap.com/deriving-better-insights-from-time-series-data-with-cycle-plots/)
 
 Visualizing time series data for analyzing any numerical data like revenue, app launches, uninstalls, etc reveals the underlying trend immediately. The graph below captures the normal way of visualizing time series data:
 

@@ -23,6 +23,8 @@ library(knitr)
 opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA)
 ```
 
+[Original:](https://blog.clevertap.com/how-to-convert-numerical-variables-to-categorical-variables-with-decision-trees/)
+
 Why would you want to convert a numerical variable into categorical one? Depending on the situation, it can lead to a better interpretation of the numerical variable, quick segmentation or just an additional feature for building your predictive model by creating bins for the numerical variable. Binning is a popular feature engineering technique.
 
 Suppose your hypothesis is that the age of a customer is correlated with their tendency to interact with a mobile app. This relationship is shown graphically below:

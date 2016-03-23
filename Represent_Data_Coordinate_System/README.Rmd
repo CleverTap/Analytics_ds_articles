@@ -25,6 +25,8 @@ library(knitr)
 opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA)
 ```
 
+[Original:](https://blog.clevertap.com/how-to-represent-data-with-intelligent-use-of-the-coordinate-system/)
+
 The most widely used coordinate system to represent data is the Cartesian coordinates followed by Polar coordinates.
 
 ![Coordinate-System](Coordinate-System.png)
