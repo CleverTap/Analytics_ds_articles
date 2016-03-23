@@ -3,7 +3,11 @@ title: "How to Represent Data with Intelligent Use of the Coordinate System"
 output: html_document
 ---
 
+Note: Some graphs/plots may be different from that shown in the article
+
 ```{r setOptions, message=FALSE, echo = F,  warning=FALSE}
+###Make sure the below packages are installed on your R environment, else first install them ### using install.packages("packageName")  and then knit this Rmd file
+
 library(ggplot2)
 library(treemap)
 library(RColorBrewer)
@@ -21,7 +25,7 @@ opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA)
 
 ```{r}
 
-dat <- read.csv(".../dat.csv")
+dat <- read.csv("../dat.csv")
 
 g <- ggplot(dat, aes(x = OS, y = percent, colour = "red") ) +
         theme_bw() +
