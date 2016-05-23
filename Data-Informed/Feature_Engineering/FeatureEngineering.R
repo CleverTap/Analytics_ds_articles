@@ -3,12 +3,7 @@
 ###Importing the libraries in R Env
 library(NbClust)
 library(rattle)
-library(dplyr)
-library(ggbiplot)
-library(car)
-library(rpart)
-library(caret)
-library(psych)
+
 
 ##########################################################################################
 
