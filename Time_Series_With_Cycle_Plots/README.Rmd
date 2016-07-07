@@ -1,0 +1,64 @@
+---
+title: "Derive better insights from time series data with Cycle Plots"
+output: html_document
+---
+
+```{r setOptions, message=FALSE, echo = F,  warning=FALSE, include = F}
+###Make sure the below packages are installed on your R environment, else first install them 
+### using install.packages("packageName")  and then knit this Rmd file
+
+library(lubridate)
+library(reshape2)
+library(plotly)
+
+library(knitr)
+
+
+opts_chunk$set(echo = F, tidy = F, results = 'asis', comment = NA, cache = T)
+```
+
+[Original:](https://blog.clevertap.com/deriving-better-insights-from-time-series-data-with-cycle-plots/)
+
+Visualizing time series data for analyzing any numerical data like revenue, app launches, uninstalls, etc reveals the underlying trend immediately. The graph below captures the normal way of visualizing time series data:
+
+```{r chunk1}
+dat <- read.csv("../dat.csv", stringsAsFactors = F)
+
+dat$Day <- lubridate::wday(ymd(dat$Date), label=T)
+```
+
+```{r chunk, cache =F, dependson='chunk1' }
+plot_ly(dat, x= Days, y = Uninstalls, type = "line" ) %>% add_trace( y = fitted(loess(Uninstalls ~ Days)), name = c("smoothened")) %>% layout(showlegend = FALSE)
+
+```
+
+The above graph captures the essence of a slight uptrend over the course of 12 weeks but leaves out further details of what's happening during each of those weeks or weekdays.
+
+```{r chunk2, cache =F, dependson='chunk1'}
+
+plot_ly(dat, x = Day, y = Uninstalls, group = Week, type = "point") 
+
+```
+
+Each line in the graph represents the time series for each week. Friday has the highest rate of uninstalls which peaks in week 7. Monday, Wednesday, and Thursday have zero uninstalls during each of the 12 weeks which makes it difficult to determine a trend over this period.
+
+A cycle plot shows both the cycle or trend and the day-of-the-week or the month-of-the-year effect. This retains the strength of both the above plots. Let's look at the trend for each day of the week over the same period:
+
+```{r chunk3, cache =F, dependson='chunk1'}
+
+{
+        ggplot(dat, aes(x = Days,y=Uninstalls, colour = Day)) + geom_point()+
+        stat_smooth(size = 0.75) + facet_wrap(~Day) + scale_y_continuous(breaks= c(0,1000,2000,3000,4000))
+        } %>%
+       ggplotly()
+
+
+```
+
+####Insights
++ **The trend for uninstalls holds steady with the exception of Saturday, Thursday, and Sunday, which are seeing a clear uptrend in uninstalls.**
++ **Uninstalls for Friday seem to be the most volatile as shown by the width of the confidence band represented by the shade around the trend.**
++ **Points outside the confidence band could be considered outliers and can be probed further.**
+
+
+It can thus be concluded with the above example that cycle plots can be regarded as a useful tool for visualizing time series data.

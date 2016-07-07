@@ -1,0 +1,185 @@
+---
+title: "How to treat missing values in data : Part II"
+
+output: html_document
+---
+
+```{r setOptions, message=FALSE,  warning=FALSE}
+###Make sure the below packages are installed on your R environment, else first install them 
+### using install.packages("packageName")  and then knit this Rmd file
+
+library(rpart)
+library(knitr)
+library(stargazer)
+library(ggplot2)
+
+opts_chunk$set(results = 'asis', comment = NA)
+```
+
+
+In the previous [article](https://blog.clevertap.com/how-to-treat-missing-values-in-your-data-part-i/?utm_source=ref_github), we discussed some techniques to deal with missing data. We will now look at an example where we shall test all the techniques discussed earlier to infer or deal with such missing observations.
+
+With the information on Visits,Transactions, Operating System, and Gender suppose we need to build a model to predict Revenue. The summary of the information is given below:
+
+```{r}
+data.train <- read.csv(".../data.train.csv")
+kable(summary(data.train))
+```
+
+We have a total of `r sum(is.na(data.train))` missing data points (Transactions: 1800, Gender: 5400) out of `r nrow(data.train)` observations. Almost `r round(sum(is.na(data.train$Transaction))/nrow(data.train) * 100,0)`% and `r round(sum(is.na(data.train$Gender))/nrow(data.train) * 100,0)`% data points are missing for 'Transactions' and 'Gender' respectively.
+
+###Revenue Prediction
+
+We will be using a linear regression model to predict 'Revenue'.
+
+*A quick intuitive recap of Linear Regression*
+
+Assume 'y' depends on 'x'. We can explore their relationship graphically as below:
+
+```{r}
+dat1 <- read.csv(".../dat1.csv")
+g <- ggplot(dat1, aes(x = x, y = y)) + geom_point(color = "blue")
+g + ggtitle("(a)")
+g + geom_smooth(method = 'lm', se = F, color = "black", formula = y ~ x) + ggtitle("(b)")
+
+```
+
+###Missing Value Treatment
+
+Let's now deal with the missing data using techniques mentioned below and then predict 'Revenue'.
+
+####1. Deletion####
+
+```{r}
+
+#### Deletion
+data.train.del <- data.train[!(is.na(data.train$Gender) | is.na(data.train$Transactions)),]
+
+del <- lm(Revenue ~ Transactions + OS + Gender , data = data.train.del)
+```
+
+_Steps Involved:_
+
++ **Delete**
+
+    Delete or ignore the observations that are missing and build the predictive model on the remaining data. In the above example, we shall ignore the missing observations totalling 7200 data points for the 2 variables i.e. 'Transactions' and 'Gender'.
+
++ **Impute 'Revenue' by Linear Regression**
+
+    Build a Simple Linear model to predict Revenue.
+
+####2. Impute by Average####
+
+```{r}
+### Imputation by Average
+data.train.avg <- data.train
+mean.android <- mean(data.train.avg$Transactions[data.train.avg$OS == "Android"], na.rm = T)
+mean.ios <- mean(data.train.avg$Transactions[data.train.avg$OS == "iOS"], na.rm = T)
+
+data.train.avg[data.train.avg$OS == "Android" & is.na(data.train.avg$Transactions),]$Transactions <- mean.android
+data.train.avg[data.train.avg$OS == "iOS" & is.na(data.train.avg$Transactions),]$Transactions <- mean.ios
+data.train.avg$Gender[is.na(data.train.avg$Gender)] <- "Male"
+ 
+avg <- lm(Revenue ~ Visits + Transactions + OS + Gender , data = data.train.avg)
+
+```
+
+_Steps Involved:_
+
++ **Impute 'Transactions' by Mean**
+
+    We shall  impute the missing data points for 'Transactions' variable by looking at the group means of 'Transactions'  by 'OS'.
+
+    Mean of Transactions for Users on Android: `r round(mean.android, 2)`
+
+    Mean of Transactions for Users on iOS: `r round(mean.ios, 2)`
+
+    All the missing observations for 'Transactions' will get `r round(mean.android, 2)` and `r round(mean.ios, 2)` as its value for Users on Android and iOS respectively.
+
++ **Impute 'Gender' by Mode**
+
+    Since 'Gender' is a categorical variable, we shall use Mode to impute the missing variables. In the given dataset, the Mode for the variable 'Gender' is 'Male' since it's frequency is the highest. All the missing data points for 'Gender' will be labeled as 'Male'.
+
++ **Impute 'Revenue' by Linear Regression**
+
+    Build a Simple Linear model to predict 'Revenue'.
+
+####3. Impute by Predictive Model####
+
+```{r}
+### Imputation by Decision Tree and Linear regression
+
+ind <- which(is.na(data.train$Gender))
+
+dt <- rpart(Gender ~ Visits + Transactions + OS, data = data.train[-ind,], control = rpart.control(minsplit=2, cp=0.000001))
+
+
+pred <- predict(dt, newdata = data.train[ind,], type = "class")
+data.train.impute <- data.train
+data.train.impute$Gender[ind] <- pred
+
+ind.tr <- which(is.na(data.train$Transactions))
+trans.lm <- lm(Transactions ~ Visits + OS + Gender, data = data.train.impute[-ind.tr,])
+
+pred <- predict(trans.lm, newdata = data.train[ind.tr,])
+data.train.impute$Transactions[ind.tr] <- pred
+
+imp <- lm(Revenue ~ Transactions + OS + Gender, data = data.train.impute)
+
+```
+
+_Steps Involved:_
+
++ **Impute 'Gender' by Decision Tree**
+
+    There are several predictive techniques; statistical and machine learning to impute missing values. We will be using Decision Trees to impute the missing values of 'Gender'. The variables used to impute it are 'Visits', 'OS' and 'Transactions'.
+
++ **Impute 'Transactions' by Linear Regression**
+
+    Using a simple linear regression, we will impute 'Transactions' by including the imputed missing values for 'Gender' (imputed from Decision Tree). The variables used to impute it are 'Visits', 'OS' and 'Gender'.
+
++ **Impute 'Revenue' by Linear Regression**
+
+    Build a Simple Linear model to predict 'Revenue'.
+
+ 
+###Linear Regression Model Evaluation
+ 
+A common and quick way to evaluate how well a linear regression model fits the data is the coefficient of determination or R^2^.
+
++ R^2^ indicates the sensitivity of the predicted response variable with the observed response or dependent variable (Movement of Predicted with Observed).
++ The range of R2 is between 0 and 1.
+
+$$ R^{2} = \sum{\frac{\hat{(y_{i}} - \bar{y})^{2}}{(y_{i} - \bar{y})^{2}}} $$
+
+where $\hat{y_{i}}$ = predicted response; $y_{i}$ = observed response; $\bar{y}$ = mean response 
+
+R^2^ will remain constant or keep on increasing as long as you add more independent variables to your model. This might result in overfitting.
+
+Adjusted R^2^ overcomes this shortcoming of R2 to a great extent. Adjusted R^2^ is a modified version of R^2^ that has been adjusted for the number of predictors in the model.
+
+$$ Adjusted \hspace{1 mm} R^{2} = 1 - \frac{(1 - R^{2})(N - 1)}{N - k - 1} $$
+
+where $R^{2}$ = R-squared; N = Number of Observations;  k = Number of predictors or independent variables
+
++ The Adjusted R^2^ will penalize R^2^ for keeping on adding independent variables (k in the equation) that do not fit the model.
++ Adjusted R^2^ is not guaranteed to increase or remain constant but may decrease as you add more and more independent variables.
+
+###Model Comparison post-treatment of Missing Values
+
+Let's compare the linear regression output after imputing missing values from the methods discussed above:
+
+```{r}
+stargazer(del, avg, imp, type = 'html')
+```
+
+In the above table, the Adjusted R^2^ is same as R^2^ since the variables that do not contribute to the fit of the model haven't been taken into consideration to build the final model.
+
+####Inference:
+
++ It can be observed that 'Deletion' is the worst performing method and the best one is 'Imputation by Predictive Model' followed by 'Imputation by Average'.
++ 'Imputation by Predictive Model' delivers a better performance since it not only delivers a higher Adjusted R^2^  but also requires one independent variable ('Visits') less to predict 'Revenue' compared to 'Imputation by Average'.
+
+###Conclusion
+
+Imputation of missing values is a tricky subject and unless the missing data is not observed completely at random, imputing such missing values by a Predictive Model is highly desirable since it can lead to better insights and overall increase in performance of your predictive models.
