@@ -42,7 +42,7 @@ fit1 <- l1fit( dat$x,dat$y1); fit1
 
 ###Comparing the regression line visually
 ggplot(dat, aes(x = x, y = y1)) + geom_point(col = "red") + 
-  geom_text(aes(label = paste(x,y, sep=",")), vjust = 0, nudge_y = 0.5, check_overlap = T) +
+  geom_text(aes(label = paste(x,y1, sep=",")), vjust = 0, nudge_y = 0.5, check_overlap = T) +
   geom_abline(slope = fit1$coefficients[2],intercept = fit1$coefficients[1]) +
   geom_smooth(method = "lm", col = "cyan2", se = F) +  theme_bw() +
   theme(panel.grid.major = element_blank(),
@@ -65,7 +65,7 @@ fit1 <- l1fit( dat$x,dat$y2); fit1
 
 ###Comparing the regression line visually
 ggplot(dat, aes(x = x, y = y2)) + geom_point(col = "red") + 
-  geom_text(aes(label = paste(x,y, sep=",")), vjust = 0, nudge_y = 0.5, check_overlap = T) +
+  geom_text(aes(label = paste(x,y2, sep=",")), vjust = 0, nudge_y = 0.5, check_overlap = T) +
   geom_abline(slope = fit1$coefficients[2],intercept = fit1$coefficients[1]) +
   geom_smooth(method = "lm", col = "cyan2", se = F) +  theme_bw() +
   theme(panel.grid.major = element_blank(),
@@ -88,7 +88,7 @@ fit1 <- l1fit( dat$x,dat$y3); fit1
 
 ###Comparing the regression line visually
 ggplot(dat, aes(x = x, y = y3)) + geom_point(col = "red") + 
-  geom_text(aes(label = paste(x,y, sep=",")), vjust = 0, nudge_y = 0.5, check_overlap = T) +
+  geom_text(aes(label = paste(x,y3, sep=",")), vjust = 0, nudge_y = 0.5, check_overlap = T) +
   geom_abline(slope = fit1$coefficients[2],intercept = fit1$coefficients[1]) +
   geom_smooth(method = "lm", col = "cyan2", se = F) +  theme_bw() +
   theme(panel.grid.major = element_blank(),
