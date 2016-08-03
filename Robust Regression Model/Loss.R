@@ -47,7 +47,7 @@ ggplot(dat, aes(x = x, y = y1)) + geom_point(col = "red") +
   geom_smooth(method = "lm", col = "cyan2", se = F) +  theme_bw() +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) + 
-  ggtitle(paste("(a) L1: y =", round(fit1$coefficients[1], 3), "+", round(fit1$coefficients[2],3), 
+  ggtitle(paste("(b) L1: y =", round(fit1$coefficients[1], 3), "+", round(fit1$coefficients[2],3), 
                 "* x; L2: y =", round(fit$coefficients[1],3), "+", round(fit$coefficients[2], 3), "* x")) + 
   ylab("y")
 #################################Case (c)###############################################
@@ -70,7 +70,7 @@ ggplot(dat, aes(x = x, y = y2)) + geom_point(col = "red") +
   geom_smooth(method = "lm", col = "cyan2", se = F) +  theme_bw() +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) + 
-  ggtitle(paste("(a) L1: y =", round(fit1$coefficients[1], 3), "+", round(fit1$coefficients[2],3), 
+  ggtitle(paste("(c) L1: y =", round(fit1$coefficients[1], 3), "+", round(fit1$coefficients[2],3), 
                 "* x; L2: y =", round(fit$coefficients[1],3), "+", round(fit$coefficients[2], 3), "* x")) + 
   ylab("y")
 #################################Case (d)##############################################
@@ -93,7 +93,7 @@ ggplot(dat, aes(x = x, y = y3)) + geom_point(col = "red") +
   geom_smooth(method = "lm", col = "cyan2", se = F) +  theme_bw() +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()) + 
-  ggtitle(paste("(a) L1: y =", round(fit1$coefficients[1], 3), "+", round(fit1$coefficients[2],3), 
+  ggtitle(paste("(d) L1: y =", round(fit1$coefficients[1], 3), "+", round(fit1$coefficients[2],3), 
                 "* x; L2: y =", round(fit$coefficients[1],3), "+", round(fit$coefficients[2], 3), "* x")) + 
   ylab("y")
 #########################################################################################
