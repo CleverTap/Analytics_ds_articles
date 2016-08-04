@@ -1,4 +1,4 @@
-##This repo contains the R script "Logistic.R" to reproduce the examples discussed in the article [A Primer on Logitic Regression : Part I](https://blog.clevertap.com/a-primer-on-logistic-regression-part-i/)
+##This repo contains the R script "Logistic.R" to reproduce the examples discussed in the article [A Primer on Logistic Regression : Part I](https://blog.clevertap.com/a-primer-on-logistic-regression-part-i/)
 
 
 ###Pre-requisites:
