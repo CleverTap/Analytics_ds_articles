@@ -1,4 +1,4 @@
-##This repo contains the R script "Loss.R" to reproduce the examples discussed in the article [A Neat Trick to Increase Robustness of Regression Models](https://blog.clevertap.com/a-neat-trick-to-increase-robustness-of-regression-models/)
+##This repo contains the R script "Logistic.R" to reproduce the examples discussed in the article [A Primer on Logitic Regression : Part I](https://blog.clevertap.com/a-primer-on-logistic-regression-part-i/)
 
 
 ###Pre-requisites:
